@@ -54,6 +54,7 @@ public class Blog implements Serializable {
      * 是否点赞过了
      */
     @TableField(exist = false)
+    @com.fasterxml.jackson.annotation.JsonProperty("isLike")
     private Boolean isLike;
 
     /**
