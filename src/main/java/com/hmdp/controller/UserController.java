@@ -4,6 +4,7 @@ package com.hmdp.controller;
 import com.hmdp.dto.LoginFormDTO;
 import com.hmdp.dto.Result;
 import com.hmdp.dto.UserDTO;
+import com.hmdp.entity.User;
 import com.hmdp.entity.UserInfo;
 import com.hmdp.service.IUserInfoService;
 import com.hmdp.service.IUserService;
@@ -81,5 +82,23 @@ public class UserController {
         info.setUpdateTime(null);
         // 返回
         return Result.ok(info);
+    }
+
+    /**
+     * 根据id查询用户基本信息（用于他人主页）
+     */
+    @GetMapping("/{id}")
+    public Result queryUserById(@PathVariable("id") Long userId) {
+        // 查询详情
+        User user = userService.getById(userId);
+        if (user == null) {
+            return Result.ok();
+        }
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setNickName(user.getNickName());
+        userDTO.setIcon(user.getIcon());
+        // 返回
+        return Result.ok(userDTO);
     }
 }
