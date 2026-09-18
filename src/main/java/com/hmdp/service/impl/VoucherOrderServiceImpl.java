@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
-import static com.hmdp.utils.RedisConstants.SECKILL_STOCK_KEY;
 
 /**
  * <p>
@@ -74,7 +73,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
         // 2.2.为0，把下单信息发送到 RabbitMQ 队列（异步下单）
         VoucherOrder voucherOrder = new VoucherOrder();
         // 2.3.订单id
-        long orderId = redisIdWorker.nextId(SECKILL_STOCK_KEY);
+        long orderId = redisIdWorker.nextId("order");
         voucherOrder.setId(orderId);
         // 2.4.用户id
         voucherOrder.setUserId(UserHolder.getUser().getId());
