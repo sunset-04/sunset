@@ -34,4 +34,19 @@ public interface IBlogService extends IService<Blog> {
      * @return 点赞用户列表
      */
     Result queryBlogLikes(Long id);
+
+    /**
+     * 保存笔记，并推送到粉丝收件箱
+     * @param blog 笔记
+     * @return 笔记id
+     */
+    Result saveBlog(Blog blog);
+
+    /**
+     * 滚动分页查询收件箱（关注的人的笔记）
+     * @param maxTime 上一次查询的最小时间戳
+     * @param offset 偏移量
+     * @return 滚动分页结果
+     */
+    Result queryBlogOfFollow(Long maxTime, Integer offset);
 }
