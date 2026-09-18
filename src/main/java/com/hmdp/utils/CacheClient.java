@@ -76,8 +76,15 @@ public class CacheClient {
         String json = stringRedisTemplate.opsForValue().get(key);
         // 2.判断是否存在
         if (StrUtil.isBlank(json)) {
-            // 3.存在,直接返回;
-            return null;
+            // 2.1缓存未命中：查询数据库
+            R r = dbFallback.apply(id);
+            // 2.2数据库也不存在，返回 null
+            if (r == null) {
+                return null;
+            }
+            // 2.3存在则写入缓存（逻辑过期），并返回
+            this.setWithLogicExpire(key, r, time, unit);
+            return r;
         }
         // 4.命中,需要先把json反序列化为对象
         RedisData redisData = JSONUtil.toBean(json, RedisData.class);
