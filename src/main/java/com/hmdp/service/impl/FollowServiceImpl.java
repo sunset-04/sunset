@@ -100,4 +100,20 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
         // 5.返回
         return Result.ok(userDTOS);
     }
+
+    @Override
+    public Result followCounts(Long userId) {
+        // 关注数：该用户关注了多少人
+        Long followCount = lambdaQuery()
+                .eq(Follow::getUserId, userId)
+                .count();
+        // 粉丝数：多少人关注了该用户
+        Long fansCount = lambdaQuery()
+                .eq(Follow::getFollowUserId, userId)
+                .count();
+        java.util.Map<String, Long> map = new java.util.HashMap<>();
+        map.put("follow", followCount);
+        map.put("fans", fansCount);
+        return Result.ok(map);
+    }
 }

@@ -44,4 +44,12 @@ public class FollowController {
     public Result followCommons(@PathVariable("id") Long id) {
         return followService.followCommons(id);
     }
+
+    /**
+     * 关注数 / 粉丝数
+     */
+    @GetMapping("/counts/{id}")
+    public Result followCounts(@PathVariable("id") Long userId) {
+        return followService.followCounts(userId);
+    }
 }
